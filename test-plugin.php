@@ -130,10 +130,10 @@ function reader_revenue_manager_plugin_require_login() {
     }
 	
     $page_content_access_strategy = get_post_meta( $post->ID, '_content_access_strategy', true);
-	$default_content_access_strategy = get_option('reader_revenue_manager_plugin_default_content_access_strategy', '');
+	$default_content_access_strategy = get_option('reader_revenue_manager_plugin_default_content_access_strategy', 'free');
 	$default_product_id = get_option('reader_revenue_manager_plugin_product_id', 'openaccess');
 	
-	$out = $page_content_access_strategy != '' ? $page_content_access_strategy : $default_content_access_strategy;
+	$accessibleForFree = $page_content_access_strategy != '' ? $page_content_access_strategy : $default_content_access_strategy;
 
     $publication_id =  get_option('reader_revenue_manager_plugin_publication_id', '');
     $product_id = get_post_meta( $post->ID, '_product_id', true);
@@ -147,17 +147,18 @@ function reader_revenue_manager_plugin_require_login() {
 <p>autoprompt_type: <?= $autoprompt_type ?></p>
 <p>language: <?= $language ?></p>
 <p>theme: <?= $theme ?></p>
+<p>free: <?= json_encode($accessibleForFree == 'free') ?></p>
 <!-- <script async type="application/javascript"
         src="https://news.google.com/swg/js/v1/swg-basic.js"></script>
 <script>
   (self.SWG_BASIC = self.SWG_BASIC || []).push( basicSubscriptions => {
     basicSubscriptions.init({
       type: "NewsArticle",
-      isAccessibleForFree: false,
+      isAccessibleForFree: <?= json_encode($accessibleForFree == 'free') ?>,
       isPartOfType: ["Product"],
-      isPartOfProductId: "CAow1dzDCw:basic",
-      autoPromptType: "subscription",
-      clientOptions: { theme: "light", lang: "" },
+      isPartOfProductId: "<?= $publication_id ?>:<?= $product_id ?>",
+      autoPromptType: "<?= $autoprompt_type ?>",
+      clientOptions: { theme: "<?= $theme ?>", lang: "<?= $language ?>" },
     });
   });
 </script> -->

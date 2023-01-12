@@ -9,11 +9,10 @@ import { __ } from '@wordpress/i18n';
 
 
 export const Sidebar = ({postType, postMeta, setPostMeta}) => { 
-  console.log(postType)
   if (postType !== 'post') { return null; }
 
-  const [contentAccessStrategy] = useState(postMeta['_content_access_strategy']);
-  const [productId] = useState(postMeta['_product_id']);
+  const contentAccessStrategy = postMeta['_content_access_strategy'];
+  const productId = postMeta['_product_id'];
   const [defaultStrategy, setDefaultStrategy] = useState(undefined);
   const [defaultProductId, setDefaultProductId] = useState(undefined);
 
@@ -88,5 +87,3 @@ export default compose( [
 		};
 	} )
 ] )( Sidebar );
-
-// export default Sidebar;
