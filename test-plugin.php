@@ -125,7 +125,7 @@ function reader_revenue_manager_plugin_require_login() {
     $bypass_post_lock = current_user_can('view_locked_posts') 
         && isset($_COOKIE['rrm-preview-toggle']) 
         && boolval($_COOKIE['rrm-preview-toggle']);
-    if ( ! is_singular() || ! $post  || $bypass_post_lock) {
+    if ( ! is_singular() || ! $post || is_page()  || $bypass_post_lock) {
 		return;
     }
 	
@@ -142,13 +142,13 @@ function reader_revenue_manager_plugin_require_login() {
     $language = get_option('reader_revenue_manager_plugin_language', '');
     $theme = get_option('reader_revenue_manager_plugin_theme', 'light');
 	?>
-<p>Publication: <?= $publication_id ?></p>
+<!-- <p>Publication: <?= $publication_id ?></p>
 <p>product_id: <?= $product_id ?></p>
 <p>autoprompt_type: <?= $autoprompt_type ?></p>
 <p>language: <?= $language ?></p>
 <p>theme: <?= $theme ?></p>
-<p>free: <?= json_encode($accessibleForFree == 'free') ?></p>
-<!-- <script async type="application/javascript"
+<p>free: <?= json_encode($accessibleForFree == 'free') ?></p> -->
+<script async type="application/javascript"
         src="https://news.google.com/swg/js/v1/swg-basic.js"></script>
 <script>
   (self.SWG_BASIC = self.SWG_BASIC || []).push( basicSubscriptions => {
@@ -161,7 +161,7 @@ function reader_revenue_manager_plugin_require_login() {
       clientOptions: { theme: "<?= $theme ?>", lang: "<?= $language ?>" },
     });
   });
-</script> -->
+</script>
 
 <?php
 }
@@ -194,7 +194,7 @@ function reader_revenue_manager_plugin_settings_page() {
 			?>
             <div id="reader-revenue-manager-settings"></div>
             <?php
-        },
+        }
     );
 }
 
@@ -235,7 +235,7 @@ function reader_revenue_manager_plugin_admin_bar($admin_bar) {
             'href'  => '#',
             'meta'  => array(
                 'class' => 'menupop',
-            ),
+            )
         );
         $preview_node = array(
             'parent' => 'reader-revenue-manager',
@@ -245,7 +245,7 @@ function reader_revenue_manager_plugin_admin_bar($admin_bar) {
             'meta'  => array(
                 'class' => 'menupop reader-revenue-manager-wp-adminbar',
                 'onclick' => 'rrmTogglePreview()'
-            ),
+            )
         );
         $admin_bar->add_node($root_node);
         $admin_bar->add_node($preview_node);
